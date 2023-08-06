@@ -22,13 +22,11 @@ class BirdsController < ApplicationController
 
   # PATCH /birds/:id
   def update
-    bird = Bird.find_bird
-    if bird
-      bird.update(bird_params)
-      render json: bird
-    else
-      render_not_found_response
-    end
+    bird = find_bird
+    bird.update(bird_params)
+    render json: bird
+  rescue ActiveRecord::RecordNotFound
+    render_not_found_response
   end
 
   # PATCH /birds/:id/like
@@ -43,6 +41,7 @@ class BirdsController < ApplicationController
   end
 
   # DELETE /birds/:id
+
   def destroy
     bird = Bird.find_bird
     if bird
